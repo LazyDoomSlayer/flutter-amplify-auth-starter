@@ -1,4 +1,6 @@
+import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_amplify_auth_starter/core/constants.dart';
 import 'package:flutter_amplify_auth_starter/theme/dark_colors.dart';
 import 'package:flutter_amplify_auth_starter/widgets/app_text_field.dart';
 
@@ -30,11 +32,47 @@ class _LoginFormState extends State<LoginForm> {
     super.dispose();
   }
 
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      // TODO: Implement login logic
-      print('Email: ${_emailController.text}');
-      print('Password: ${_passwordController.text}');
+  bool _isLoading = false;
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    final username = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    try {
+      SignInResult res = await Amplify.Auth.signIn(
+        username: username,
+        password: password,
+      );
+
+      if (res.isSignedIn) {
+        if (!mounted) return;
+        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+      } else {
+        // Handle next steps
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Additional confirmation required.')),
+        );
+      }
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message),
+          backgroundColor: DarkColors.systemError,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Unexpected error, please try again.'),
+          backgroundColor: DarkColors.systemError,
+        ),
+      );
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
@@ -128,6 +166,10 @@ class _LoginFormState extends State<LoginForm> {
               label: 'Password',
               controller: _passwordController,
               obscureText: _obscurePassword,
+              validator: (value) => value == null || value.isEmpty
+                  ? 'Please enter your password'
+                  : null,
+              keyboardType: TextInputType.visiblePassword,
             ),
 
             const SizedBox(height: 24),
@@ -135,7 +177,7 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _submit,
+                onPressed: _isLoading ? null : _submit,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: DarkColors.backgroundBtnPrimary,
                   foregroundColor: DarkColors.blackText,
@@ -149,7 +191,13 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   elevation: 0,
                 ),
-                child: const Text('SIGN IN'),
+                child: _isLoading
+                    ? const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(
+                          DarkColors.blackText,
+                        ),
+                      )
+                    : const Text('SIGN IN'),
               ),
             ),
           ],
