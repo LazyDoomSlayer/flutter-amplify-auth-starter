@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
+import 'amplify_config.dart';
 import 'app.dart';
-// import 'core/amplify_config.dart'; // You'll create this next
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await configureAmplify(); // Sets up Amplify plugins
+  await configureAmplify();
 
   runApp(const App());
 }
