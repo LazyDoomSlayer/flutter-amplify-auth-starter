@@ -50,9 +50,13 @@ class _LoginFormState extends State<LoginForm> {
 
       if (res.isSignedIn) {
         if (!mounted) return;
-        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+
+        if (res.isSignedIn) {
+          if (!mounted) return;
+          Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+          return;
+        }
       } else {
-        // Handle next steps
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Additional confirmation required.')),
         );
@@ -72,7 +76,7 @@ class _LoginFormState extends State<LoginForm> {
         ),
       );
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -176,15 +180,20 @@ class _LoginFormState extends State<LoginForm> {
 
             SizedBox(
               width: double.infinity,
+              height: 48,
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _submit,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: DarkColors.backgroundBtnPrimary,
+                  disabledBackgroundColor: DarkColors.backgroundBtnPrimary,
                   foregroundColor: DarkColors.blackText,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  disabledForegroundColor: DarkColors.blackText,
+
+                  padding: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  fixedSize: const Size.fromHeight(48),
                   textStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.5,
@@ -192,9 +201,14 @@ class _LoginFormState extends State<LoginForm> {
                   elevation: 0,
                 ),
                 child: _isLoading
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(
-                          DarkColors.blackText,
+                    ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation(
+                            DarkColors.blackText,
+                          ),
                         ),
                       )
                     : const Text('SIGN IN'),
