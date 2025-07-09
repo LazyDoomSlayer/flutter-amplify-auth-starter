@@ -26,8 +26,8 @@ class AppTextField extends StatelessWidget {
       keyboardType: keyboardType,
       style: const TextStyle(color: DarkColors.heading1Text),
       decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(
+        hintText: label,
+        hintStyle: const TextStyle(
           color: DarkColors.paragraph2Text,
           fontSize: 14,
         ),
@@ -49,6 +49,7 @@ class AppTextField extends StatelessWidget {
           vertical: 12,
         ),
       ),
+
       validator: validator,
     );
   }
