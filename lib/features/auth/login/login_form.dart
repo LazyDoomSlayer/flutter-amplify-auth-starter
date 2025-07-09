@@ -15,6 +15,14 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _obscurePassword = true;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -37,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
       child: Form(
         key: _formKey,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // left-align labels
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             // Header
@@ -77,27 +85,49 @@ class _LoginFormState extends State<LoginForm> {
 
             const SizedBox(height: 16),
 
-            // Password label
-            const Text(
-              'Password',
-              style: TextStyle(
-                color: DarkColors.paragraph2Text,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+            // Password label with toggle
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Password',
+                  style: TextStyle(
+                    color: DarkColors.paragraph2Text,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                InkWell(
+                  onTap: _togglePasswordVisibility,
+                  child: Row(
+                    children: [
+                      Icon(
+                        _obscurePassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        color: DarkColors.paragraph2Text,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        _obscurePassword ? 'SHOW' : 'HIDE',
+                        style: const TextStyle(
+                          color: DarkColors.paragraph2Text,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
 
             AppTextField(
               label: 'Password',
               controller: _passwordController,
-              obscureText: true,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
-                }
-                return null;
-              },
+              obscureText: _obscurePassword,
             ),
 
             const SizedBox(height: 24),
