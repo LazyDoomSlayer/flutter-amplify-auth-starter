@@ -1,7 +1,7 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_amplify_auth_starter/features/auth/login/login_page.dart';
-import 'package:flutter_amplify_auth_starter/features/home/home_page.dart';
+import 'package:flutter_amplify_auth_starter/features/home/app_layout.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -16,12 +16,12 @@ class AuthGate extends StatelessWidget {
             body: Center(child: CircularProgressIndicator()),
           );
         }
-        
+
         if (snap.hasError || !(snap.data?.isSignedIn ?? false)) {
           return const LoginPage();
         }
 
-        return const HomePage();
+        return const AppLayout();
       },
     );
   }
