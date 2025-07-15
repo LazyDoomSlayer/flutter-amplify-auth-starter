@@ -11,6 +11,10 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="flutter_amplify_auth_starter">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity
             android:name="com.linusu.flutter_web_auth_2.CallbackActivity"
             android:exported="true">
