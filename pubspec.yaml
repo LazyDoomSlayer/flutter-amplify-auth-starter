@@ -42,6 +42,8 @@ dependencies:
 
   amplify_core: any
   collection: any
+  arcgis_maps: ^200.7.0+4560
+  flutter_dotenv: ^5.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -60,7 +62,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/LazyDoomSlayer-text-logo.png
-
+    - .env
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
