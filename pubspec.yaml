@@ -44,6 +44,7 @@ dependencies:
   collection: any
   arcgis_maps: ^200.7.0+4560
   flutter_dotenv: ^5.2.1
+  geolocator: ^13.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
