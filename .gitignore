@@ -69,3 +69,11 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+# Miscellaneous
+arcgis_maps_core
+
+# Local environment files
+*.local
+*.env
+.env
