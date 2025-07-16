@@ -16,9 +16,7 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Header(),
-            const Center(
-              child: LoginForm(), // <-- New form widget
-            ),
+            const Center(child: LoginForm()),
             const Footer(), // custom footer widget at bottom
           ],
         ),

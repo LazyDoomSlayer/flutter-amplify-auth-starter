@@ -176,6 +176,41 @@ class _LoginFormState extends State<LoginForm> {
               keyboardType: TextInputType.visiblePassword,
             ),
 
+            const SizedBox(height: 8),
+
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRoutes.resetPassword);
+                },
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(50, 30),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  alignment: Alignment.centerRight,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Text(
+                      'Reset password',
+                      style: TextStyle(
+                        color: DarkColors.paragraph1Text,
+                        fontSize: 13,
+                      ),
+                    ),
+                    Container(
+                      height: 1,
+                      width: 95,
+                      color: DarkColors.paragraph1Text,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             const SizedBox(height: 24),
 
             SizedBox(

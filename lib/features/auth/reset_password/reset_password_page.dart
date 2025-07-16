@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_amplify_auth_starter/features/auth/footer.dart';
+import 'package:flutter_amplify_auth_starter/features/auth/header.dart';
+import 'package:flutter_amplify_auth_starter/features/auth/reset_password/reset_password_form.dart';
+import 'package:flutter_amplify_auth_starter/theme/dark_colors.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   const ResetPasswordPage({super.key});
@@ -6,9 +10,16 @@ class ResetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Reset Password')),
-      body: const Center(
-        child: Text('Reset password form coming soon...'),
+      backgroundColor: DarkColors.backgroundBody,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Header(),
+            const Center(child: ResetPasswordForm()),
+            const Footer(),
+          ],
+        ),
       ),
     );
   }
