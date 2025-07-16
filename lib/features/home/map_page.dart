@@ -40,7 +40,7 @@ class _MapPageState extends State<MapPage> {
       distanceFilter: 100,
     );
 
-    return await await Geolocator.getCurrentPosition(
+    return await Geolocator.getCurrentPosition(
       locationSettings: locationSettings,
     );
   }
