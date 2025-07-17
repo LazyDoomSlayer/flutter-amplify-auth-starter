@@ -1,4 +1,6 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_amplify_auth_starter/core/constants.dart';
 import 'package:flutter_amplify_auth_starter/theme/dark_colors.dart';
 import 'package:flutter_amplify_auth_starter/widgets/app_text_field.dart';
 
@@ -14,7 +16,56 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
   final TextEditingController _emailController = TextEditingController();
   bool _isLoading = false;
 
-  void _submit() {}
+  Future<void> resetPassword(String email) async {
+    try {
+      final result = await Amplify.Auth.resetPassword(username: email);
+      safePrint(result);
+      await _handleResetPasswordResult(result);
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message),
+          backgroundColor: DarkColors.systemError,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Unexpected error, please try again.'),
+          backgroundColor: DarkColors.systemError,
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleResetPasswordResult(ResetPasswordResult result) async {
+    switch (result.nextStep.updateStep) {
+      case AuthResetPasswordStep.confirmResetPasswordWithCode:
+        final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+        safePrint(codeDeliveryDetails);
+        // _handleCodeDelivery(codeDeliveryDetails);
+        break;
+      case AuthResetPasswordStep.done:
+        safePrint('Successfully reset password');
+        break;
+    }
+  }
+
+  Future<void> _submit() async {
+    setState(() => _isLoading = true);
+
+    final email = _emailController.text.trim();
+
+    Navigator.pushNamed(
+      context,
+      AppRoutes.setNewPassword,
+      arguments: {'email': email},
+    );
+
+    // await resetPassword(email);
+
+    if (mounted) setState(() => _isLoading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
