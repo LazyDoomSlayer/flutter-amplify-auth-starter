@@ -26,7 +26,6 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 40),
             const Text(
               'RESET YOUR PASSWORD',
               style: TextStyle(
@@ -118,7 +117,6 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
           ],
         ),
       ),

@@ -190,23 +190,20 @@ class _LoginFormState extends State<LoginForm> {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   alignment: Alignment.centerRight,
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const Text(
-                      'Reset password',
-                      style: TextStyle(
-                        color: DarkColors.paragraph1Text,
-                        fontSize: 13,
+                child: IntrinsicWidth(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const Text(
+                        'Reset password',
+                        style: TextStyle(
+                          color: DarkColors.paragraph1Text,
+                          fontSize: 13,
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: 1,
-                      width: 95,
-                      color: DarkColors.paragraph1Text,
-                    ),
-                  ],
+                      Container(height: 1, color: DarkColors.paragraph1Text),
+                    ],
+                  ),
                 ),
               ),
             ),

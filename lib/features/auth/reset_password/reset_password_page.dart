@@ -12,13 +12,23 @@ class ResetPasswordPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: DarkColors.backgroundBody,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Header(),
-            const Center(child: ResetPasswordForm()),
-            const Footer(),
-          ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [Header(), ResetPasswordForm(), Footer()],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
