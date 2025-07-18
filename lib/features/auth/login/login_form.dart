@@ -1,6 +1,7 @@
 import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_amplify_auth_starter/core/constants.dart';
+import 'package:flutter_amplify_auth_starter/features/home/app_layout.dart';
 import 'package:flutter_amplify_auth_starter/theme/dark_colors.dart';
 import 'package:flutter_amplify_auth_starter/widgets/app_text_field.dart';
 
@@ -53,7 +54,9 @@ class _LoginFormState extends State<LoginForm> {
 
         if (res.isSignedIn) {
           if (!mounted) return;
-          Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const AppLayout()),
+          );
           return;
         }
       } else {
