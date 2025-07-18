@@ -10,7 +10,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="flutter_amplify_auth_starter">
+        android:label="LazyDoomSlayer">
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
