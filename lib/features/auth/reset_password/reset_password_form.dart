@@ -20,7 +20,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     try {
       final result = await Amplify.Auth.resetPassword(username: email);
       safePrint(result);
-      await _handleResetPasswordResult(result);
+      await _handleResetPasswordResult(result, email);
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -38,12 +38,19 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     }
   }
 
-  Future<void> _handleResetPasswordResult(ResetPasswordResult result) async {
+  Future<void> _handleResetPasswordResult(
+    ResetPasswordResult result,
+    String email,
+  ) async {
+    safePrint(result);
+
     switch (result.nextStep.updateStep) {
       case AuthResetPasswordStep.confirmResetPasswordWithCode:
-        final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
-        safePrint(codeDeliveryDetails);
-        // _handleCodeDelivery(codeDeliveryDetails);
+        Navigator.pushNamed(
+          context,
+          AppRoutes.setNewPassword,
+          arguments: {'email': email},
+        );
         break;
       case AuthResetPasswordStep.done:
         safePrint('Successfully reset password');
@@ -56,13 +63,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
 
     final email = _emailController.text.trim();
 
-    Navigator.pushNamed(
-      context,
-      AppRoutes.setNewPassword,
-      arguments: {'email': email},
-    );
-
-    // await resetPassword(email);
+    await resetPassword(email);
 
     if (mounted) setState(() => _isLoading = false);
   }

@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_amplify_auth_starter/core/constants.dart';
 import 'package:flutter_amplify_auth_starter/theme/dark_colors.dart';
@@ -56,12 +57,47 @@ class _SetNewPasswordFormState extends State<SetNewPasswordForm> {
 
   bool _isLoading = false;
 
+  Future<void> confirmResetPassword({
+    required String email,
+    required String newPassword,
+    required String confirmationCode,
+  }) async {
+    try {
+      final result = await Amplify.Auth.confirmResetPassword(
+        username: email,
+        newPassword: newPassword,
+        confirmationCode: confirmationCode,
+      );
+      Navigator.pushNamed(
+        context,
+        AppRoutes.newPasswordSetted,
+        arguments: {'success': true},
+      );
+
+      safePrint('Password reset complete: ${result.isPasswordReset}');
+    } catch (e) {
+      Navigator.pushNamed(
+        context,
+        AppRoutes.newPasswordSetted,
+        arguments: {'success': false},
+      );
+    }
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
-    Navigator.pushNamed(context, AppRoutes.newPasswordSetted);
+    final email = _emailController.text.trim();
+    final newPassword = _passwordController.text.trim();
+    final confirmationCode = _codeController.text.trim();
+
+    await confirmResetPassword(
+      email: email,
+      newPassword: newPassword,
+      confirmationCode: confirmationCode,
+    );
 
     setState(() => _isLoading = false);
   }

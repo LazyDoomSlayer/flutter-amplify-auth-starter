@@ -7,6 +7,20 @@ class NewPasswordSettedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>? ??
+        {};
+    final success = args['success'] == true;
+
+    final icon = success ? Icons.check_circle_outline : Icons.error_outline;
+    final iconColor = success
+        ? DarkColors.systemSuccess
+        : DarkColors.systemError;
+    final title = success ? 'PASSWORD CHANGED' : 'RESET FAILED';
+    final message = success
+        ? 'Your password has been changed\nsuccessfully'
+        : 'Something went wrong while\nchanging your password';
+
     return Scaffold(
       backgroundColor: DarkColors.backgroundBody,
       body: Center(
@@ -15,16 +29,12 @@ class NewPasswordSettedPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.check_circle_outline,
-                size: 72,
-                color: DarkColors.systemSuccess,
-              ),
+              Icon(icon, size: 72, color: iconColor),
               const SizedBox(height: 16),
 
-              const Text(
-                'PASSWORD CHANGED',
-                style: TextStyle(
+              Text(
+                title,
+                style: const TextStyle(
                   color: DarkColors.whiteText,
                   fontSize: 28,
                   letterSpacing: 1.5,
@@ -33,9 +43,9 @@ class NewPasswordSettedPage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              const Text(
-                'Your password has been changed\nsuccessfully',
-                style: TextStyle(
+              Text(
+                message,
+                style: const TextStyle(
                   color: DarkColors.paragraph2Text,
                   fontSize: 14,
                   height: 1.4,
@@ -51,8 +61,8 @@ class NewPasswordSettedPage extends StatelessWidget {
                     Navigator.pushNamed(context, AppRoutes.login);
                   },
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.deepPurpleAccent),
-                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: DarkColors.brandPurple),
+                    foregroundColor: DarkColors.whiteText,
                     textStyle: const TextStyle(
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
